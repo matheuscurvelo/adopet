@@ -4,9 +4,17 @@
  * Module dependencies.
  */
 
+var db = require('../config/dbconect');
 var app = require('../app');
 var debug = require('debug' )('adopet:server');
 var http = require('http');
+
+/**
+ * Database
+ */
+db.on('error', console.log.bind(console, 'Erro de conexao'))
+db.once('open', () => console.log('Conexao com banco feita com sucesso'))
+
 
 /**
  * Get port from environment and store in Express.
