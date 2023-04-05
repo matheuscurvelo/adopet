@@ -1,0 +1,4 @@
+npx sequelize-cli model:create --name tutors --attributes name:string,email:string,password:string,phone:string,city:string,active:boolean,url:string,about:string
+npx sequelize-cli db:migrate
+npx sequelize-cli seed:create --name demo-tutor
+npx sequelize-cli db:seed:all
