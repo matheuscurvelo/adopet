@@ -1,4 +1,12 @@
-npx sequelize-cli model:create --name tutors --attributes name:string,email:string,password:string,phone:string,city:string,active:boolean,url:string,about:string
-npx sequelize-cli db:migrate
+npx sequelize-cli model:create --name tutors --attributes name:string,email:string,password:string,phone:string,city:string,active:boolean,url:string,about:text
+npx sequelize-cli model:create --name shelters --attributes name:string,email:string,password:string,state:string,city:string,active:boolean
+npx sequelize-cli model:create --name pets --attributes name:string,type:string,specie:string,describle:string,age:string,adopted:boolean,url:string
 npx sequelize-cli seed:create --name demo-tutor
+npx sequelize-cli seed:create --name demo-shelter
+npx sequelize-cli seed:create --name demo-pet
+npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
+
+Close port
+$ lsof -i tcp:3000
+$ kill -9 PID

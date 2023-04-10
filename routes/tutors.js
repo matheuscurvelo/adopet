@@ -3,13 +3,13 @@ var router = express.Router();
 var fs = require('node:fs');
 const TutorController = require('../controllers/TutorController');
 
-router.get('/', TutorController.listTutors);
-router.get('/:id', TutorController.readTutor);
+router.get('/', TutorController.list);
+router.get('/:id', TutorController.read);
 
-router.post('/', TutorController.createTutor);
+router.post('/', TutorController.create);
 
-router.put('/:id', TutorController.updateTutor);
+router.put('/:id', TutorController.update);
 
-router.delete('/:id', TutorController.deleteTutor);
+router.delete('/:id', TutorController.delete);
 
 module.exports = router;
