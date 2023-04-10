@@ -33,7 +33,7 @@ class TutorController {
     static async create(req, res) {
         try {
             if (req.body.password) { req.body.password = bcrypt.hashSync(req.body.password, salt) }
-            const newTutor = await database.tutors.create({...req.body, active: true})
+            const newTutor = await database.tutors.create(req.body)
             return res.status(201).json(newTutor)
         } catch (error) {
             return res.status(500).send(error.message)

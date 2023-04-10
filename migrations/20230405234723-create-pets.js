@@ -30,14 +30,6 @@ module.exports = {
       url: {
         type: Sequelize.STRING
       },
-      shelter_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'shelters',
-          key: 'id'
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

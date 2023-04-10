@@ -10,9 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      shelters.hasMany(models.pets, {
-        foreignKey: 'shelter_id'
-      })
+      shelters.hasMany(models.pets)
     }
   }
   shelters.init({
@@ -23,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: {
           msg: 'Needs to be a valid email'
@@ -33,12 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    state: DataTypes.STRING,
-    city: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    state: DataTypes.STRING(2),
+    city: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'shelters',
   });
+  // shelters.sync().then(() => console.log('shelters sync complete'))
   return shelters;
 };

@@ -45,12 +45,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     city: DataTypes.STRING,
-    active: DataTypes.BOOLEAN,
     url: DataTypes.STRING,
     about: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'tutors',
   });
+  // tutors.sync().then(() => console.log('tutors sync complete'))
   return tutors;
 };

@@ -13,20 +13,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING,
-        unique: true,
+        type: Sequelize.STRING
       },
       password: {
         type: Sequelize.STRING
       },
       state: {
-        type: Sequelize.STRING(2)
+        type: Sequelize.STRING
       },
       city: {
         type: Sequelize.STRING
-      },
-      active: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

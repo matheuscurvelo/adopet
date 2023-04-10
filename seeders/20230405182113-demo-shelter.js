@@ -13,7 +13,6 @@ module.exports = {
         password: bcrypt.hashSync('123', salt),
         city: 'Rio de Janeiro',
         state: 'RJ',
-        active: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }

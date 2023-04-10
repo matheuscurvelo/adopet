@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const shelters = require('./shelters');
 module.exports = (sequelize, DataTypes) => {
   class pets extends Model {
     /**
@@ -11,8 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      pets.belongsTo(models.shelters, {
-        foreignKey: 'shelter_id'
+      pets.belongsTo(models.shelters)
+      pets.hasOne(models.adoptions, {
+        foreignKey: {
+          unique: true
+        }
       })
     }
   }
@@ -49,5 +51,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'pets',
   });
+  // pets.sync().then(() => console.log('pets sync complete'))
   return pets;
 };
