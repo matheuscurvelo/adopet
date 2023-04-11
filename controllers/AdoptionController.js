@@ -57,51 +57,44 @@ class AdoptionController {
     static async create(req, res) {
         try {
             const newAdoption = await database.adoptions.create(req.body)
+            if (newAdoption) {
+                await database.pets.update({ adopted: true}, {
+                    where: {id: Number(req.body.petId)},
+                })
+            }
             return res.status(201).json(newAdoption)
         } catch (error) {
             return res.status(500).send(error.message)
         }
     }
 
-    static async update(req, res) {
+    static async delete(req, res) {
         try {
-            await database.adoptions.update(req.body, {
-                where: {id: Number(req.params.id)},
-            })
             const findAdoption = await database.adoptions.findByPk(req.params.id, {
                 include: [
                     {
-                        model: database.shelters,
-                        attributes: { 
-                            exclude: ['password']
-                        }        
+                        model: database.pets,
                     }
                 ],
-                attributes: { 
-                    exclude: ['shelter_id']
-                }
             })
-            if (findAdoption) {
-                return res.status(200).json(findAdoption)
-            } else {
-                return res.status(500).send({message:"Couldn't update this Adoption because ID wasn't found"})
-            }
-        } catch (error) {
-            return res.status(500).send(error)
-        }
-    }
 
-    static async delete(req, res) {
-        try {
+            if (!findAdoption) {
+                return res.status(500).send({message: "Couldn't delete this Adoption because ID wasn't found"})
+            }
+
+            if (req.role != 'shelter' || req.userId != findAdoption.pet.shelterId) {
+                return res.status(403).send({message: "Can not delete this record"})
+            }
+
             const destroyedAdoption = await database.adoptions.destroy({
                 where: {id: Number(req.params.id)},
             })
 
-            if (destroyedAdoption) {
-                return res.status(200).send({message: "Adoption was deleted with success!"})
-            } else {
-                return res.status(500).send({message: "Couldn't delete this Adoption because ID wasn't found"})
-            }
+            await database.pets.update({ adopted: false}, {
+                where: {id: Number(findAdoption.petId)},
+            })
+            return res.status(200).send({message: "Adoption was deleted with success!"})
+
         } catch (error) {
             return res.status(500).send(error)
         }

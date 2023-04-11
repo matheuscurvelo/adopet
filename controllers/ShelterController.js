@@ -4,24 +4,24 @@ const salt = bcrypt.genSaltSync(10);
 
 
 class ShelterController {
-    static async list(req, res) {
-        try {
-            const findShelters = await database.shelters.findAll({
-                attributes: { exclude: ['password'] } 
-            })
-            if (findShelters.length > 0) {
-                return res.status(200).json(findShelters)
-            } else {
-                return res.status(200).send({message: "Can't find any register"})
-            }
-        } catch (error) {
-            return res.status(500).json(error)
-        }
-    }
+    // static async list(req, res) {
+    //     try {
+    //         const findShelters = await database.shelters.findAll({
+    //             attributes: { exclude: ['password'] } 
+    //         })
+    //         if (findShelters.length > 0) {
+    //             return res.status(200).json(findShelters)
+    //         } else {
+    //             return res.status(200).send({message: "Can't find any register"})
+    //         }
+    //     } catch (error) {
+    //         return res.status(500).json(error)
+    //     }
+    // }
 
     static async read(req, res) {
         try {
-            const findShelter = await database.shelters.findByPk(req.params.id, {
+            const findShelter = await database.shelters.findByPk(req.userId, {
                 attributes: { exclude: ['password'] } 
             })
             if (findShelter) {
@@ -47,9 +47,9 @@ class ShelterController {
     static async update(req, res) {
         try {
             await database.shelters.update(req.body, {
-                where: {id: Number(req.params.id)},
+                where: {id: Number(req.userId)},
             })
-            const findShelter = await database.shelters.findByPk(req.params.id, {
+            const findShelter = await database.shelters.findByPk(req.userId, {
                 attributes: { exclude: ['password'] } 
             })
             if (findShelter) {
@@ -65,7 +65,7 @@ class ShelterController {
     static async delete(req, res) {
         try {
             const destroyedShelter = await database.shelters.destroy({
-                where: {id: Number(req.params.id)},
+                where: {id: Number(req.userId)},
             })
 
             if (destroyedShelter) {

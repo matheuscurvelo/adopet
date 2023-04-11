@@ -17,6 +17,9 @@ class PetController {
                 ],
                 attributes: { 
                     exclude: ['shelter_id']
+                },
+                where: {
+                    adopted: false,
                 }
             })
             if (findPets.length > 0) {

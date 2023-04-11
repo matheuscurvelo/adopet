@@ -4,20 +4,20 @@ const salt = bcrypt.genSaltSync(10);
 
 
 class TutorController {
-    static async list(req, res) {
-        try {
-            const findTutors = await database.tutors.findAll({
-                attributes: { exclude: ['password'] } 
-            })
-            return res.status(200).json(findTutors)
-        } catch (error) {
-            return res.status(500).json(error)
-        }
-    }
+    // static async list(req, res) {
+    //     try {
+    //         const findTutors = await database.tutors.findAll({
+    //             attributes: { exclude: ['password'] } 
+    //         })
+    //         return res.status(200).json(findTutors)
+    //     } catch (error) {
+    //         return res.status(500).json(error)
+    //     }
+    // }
 
     static async read(req, res) {
         try {
-            const findTutor = await database.tutors.findByPk(req.params.id, {
+            const findTutor = await database.tutors.findByPk(req.userId, {
                 attributes: { exclude: ['password'] } 
             })
             if (findTutor) {
@@ -43,9 +43,9 @@ class TutorController {
     static async update(req, res) {
         try {
             await database.tutors.update(req.body, {
-                where: {id: Number(req.params.id)},
+                where: {id: Number(req.userId)},
             })
-            const findTutor = await database.tutors.findByPk(req.params.id, {
+            const findTutor = await database.tutors.findByPk(req.userId, {
                 attributes: { exclude: ['password'] } 
             })
             if (findTutor) {
@@ -61,7 +61,7 @@ class TutorController {
     static async delete(req, res) {
         try {
             const destroyedTutor = await database.tutors.destroy({
-                where: {id: Number(req.params.id)},
+                where: {id: Number(req.userId)},
             })
 
             if (destroyedTutor) {

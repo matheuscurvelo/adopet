@@ -2,14 +2,18 @@ var express = require('express');
 var router = express.Router();
 var fs = require('node:fs');
 const ShelterController = require('../controllers/ShelterController');
+const UserMiddleware = require('../middlewares/UserMiddleware')
 
-router.get('/', ShelterController.list);
-router.get('/:id', ShelterController.read);
+router.use(UserMiddleware.verifyLogin);
+router.use(UserMiddleware.isShelter);
+
+// router.get('/', ShelterController.list);
+router.get('/', ShelterController.read);
 
 router.post('/', ShelterController.create);
 
-router.put('/:id', ShelterController.update);
+router.put('/', ShelterController.update);
 
-router.delete('/:id', ShelterController.delete);
+router.delete('/', ShelterController.delete);
 
 module.exports = router;

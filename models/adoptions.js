@@ -15,12 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   adoptions.init({
-    // id: {
-    //   type: DataTypes.UUID,
-    //   defaultValue: DataTypes.UUIDv4,
-    //   autoIncrement: false,
-    //   primaryKey: true,
-    // },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false
