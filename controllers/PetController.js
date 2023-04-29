@@ -5,8 +5,17 @@ const salt = bcrypt.genSaltSync(10);
 
 class PetController {
     static async list(req, res) {
+        const page = req.query.page ? Number(req.query.page) : 1;
+        const size = req.query.size ? Number(req.query.size) : 10;
+        
+        if (Number.isNaN(page) || Number.isNaN(size)) {
+            return res.status(400).json({message: "Parameters 'page' or 'size' must be a number"})
+        } else if (page < 1 || size < 1) {
+            return res.status(400).json({message: "Parameters 'page' or 'size' couldn't be less then 1"})
+        }
+
         try {
-            const findPets = await database.pets.findAll({
+            const findPets = await database.pets.findAndCountAll({
                 include: [
                     {
                         model: database.shelters,
@@ -20,10 +29,15 @@ class PetController {
                 },
                 where: {
                     adopted: false,
-                }
+                },
+                limit: size,
+                offset: size * (page - 1)
             })
-            if (findPets.length > 0) {
-                return res.status(200).json(findPets)
+            if (findPets.rows.length > 0) {
+                return res.status(200).json({
+                    totalPages: Math.ceil(findPets.count / size),
+                    content: findPets.rows
+                })
             } else {
                 return res.status(200).send({message: "Can't find any register"})
             }

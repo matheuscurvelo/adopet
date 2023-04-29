@@ -64,7 +64,7 @@ class AdoptionController {
             }
             return res.status(201).json(newAdoption)
         } catch (error) {
-            return res.status(500).send(error.message)
+            return res.status(500).send(error)
         }
     }
 

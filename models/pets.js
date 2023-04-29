@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       pets.belongsTo(models.shelters)
       pets.hasOne(models.adoptions, {
         foreignKey: {
-          unique: true
+          unique: true,
+          allowNull: false,
         }
       })
     }

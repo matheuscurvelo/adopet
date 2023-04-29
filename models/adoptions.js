@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   adoptions.init({
     date: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isDate: {
+          msg: 'Needs to be a valid Date (YYYY-MM-DD)'
+        }
+      }
     }
   }, {
     sequelize,
